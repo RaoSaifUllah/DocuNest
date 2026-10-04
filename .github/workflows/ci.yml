@@ -1,0 +1,27 @@
+name: verify
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24.11.0
+          cache: npm
+          cache-dependency-path: Frontend/package-lock.json
+      - run: dotnet restore DocuNest.slnx --locked-mode --configfile NuGet.Config
+      - run: dotnet build DocuNest.slnx --no-restore -c Release
+      - run: dotnet test tests/DocuNest.UnitTests --no-restore -c Release
+      - run: npm ci && npm run lint && npm run test && npm run build
+        working-directory: Frontend
+      - run: npm audit --audit-level=moderate
+        working-directory: Frontend
+      - run: git diff --check
+# Additional real PostgreSQL, native processing, browser and operational jobs are
+# required before release; record their execution in Implementation-Status.md.

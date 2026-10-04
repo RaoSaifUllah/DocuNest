@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/backend/">
+    <Project Path="backend/DocuNest.Api/DocuNest.Api.csproj" />
+    <Project Path="backend/DocuNest.Application/DocuNest.Application.csproj" />
+    <Project Path="backend/DocuNest.Domain/DocuNest.Domain.csproj" />
+    <Project Path="backend/DocuNest.Infrastructure/DocuNest.Infrastructure.csproj" />
+    <Project Path="backend/DocuNest.Worker/DocuNest.Worker.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/DocuNest.IntegrationTests/DocuNest.IntegrationTests.csproj" />
+    <Project Path="tests/DocuNest.UnitTests/DocuNest.UnitTests.csproj" />
+  </Folder>
+</Solution>

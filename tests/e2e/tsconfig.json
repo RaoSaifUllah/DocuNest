@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "ES2023",
+    "lib": ["ES2023", "DOM", "ESNext.Disposable"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "strict": true,
+    "noEmit": true,
+    "types": ["node"],
+    "typeRoots": ["../../Frontend/node_modules/@types"],
+    "paths": { "@playwright/test": ["../../Frontend/node_modules/@playwright/test"] }
+  },
+  "include": ["*.ts"]
+}

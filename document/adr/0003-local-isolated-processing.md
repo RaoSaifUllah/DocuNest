@@ -1,0 +1,11 @@
+# ADR 0003 — Local file-spool processing in a network-isolated container
+
+Accepted 2026-10-04. Select local Tesseract/Leptonica for OCR and Poppler utilities for PDF inspection, raster rendering and per-page embedded-text extraction. Originals never render directly in the browser. Native executables receive generated paths and argument arrays. TIFF/image decoding must enforce pixel/page limits before publication.
+
+Keep the API and PostgreSQL-connected worker separate from a processor container with `network_mode: none`, non-root UID, read-only image, no capabilities, bounded memory/CPU/processes/tmpfs/output and deadlines. Exchange generated request/result files over private volumes. Do not give the worker a Docker socket. Worker fencing and result validation reject expired/stale generations; native process trees are killed on deadline.
+
+Tesseract is Apache-2.0; its Leptonica dependency uses BSD-2-Clause. Poppler includes GPL-2.0-or-later code and transitive components with their own licenses. Keep native utilities separate executable programs and retain packaged copyright/source notices; the application is owner-selected AGPL-3.0-only. ClamAV is GPL-2.0 and provides local INSTREAM scanning. Package/image SBOM, copyright notices, exact binary/language-data hashes and vulnerability review are release gates, not a legal certification.
+
+Primary sources checked 2026-10-04: [Tesseract license](https://github.com/tesseract-ocr/tesseract/blob/main/LICENSE), [Leptonica license](https://github.com/DanBloomberg/leptonica/blob/master/leptonica-license.txt), [Poppler upstream](https://poppler.freedesktop.org/), [Debian Poppler copyright](https://metadata.ftp-master.debian.org/changelogs/main/p/poppler/stable_copyright), [ClamAV scanning](https://docs.clamav.net/manual/Usage/Scanning.html). Upstream Poppler 26.10.0/Tesseract 5.5.3 exist; a distro build must be explicitly versioned and audited before release rather than silently treated as current upstream.
+
+On this Windows host, Docker/Tesseract/ClamAV are unavailable. Synthetic provider-contract checks can run; container/native OCR behavior remains unverified until executed in the isolated runtime. Secure defaults keep uploads quarantined whenever scanning or isolated processing is unavailable.
